@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flashcards</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <img src="image.png" alt="Logo" class="logo">
+      <h1>💡 Информатика</h1>
+    </div>
+    <p>Интерактивные флеш-карточки для школьников</p>
+  </header>
+  
+  <div id="overlay" onclick="toggleStats()"></div>
+  
+  <aside id="stats-panel">
+    <button id="toggle-stats-btn" onclick="toggleStats()">📈 Статистика</button>
+    <h2>Статистика</h2>
+    <p id="total-cards">Карточек просмотрено: 0</p>
+    <p id="correct-answers">Правильных ответов: 0</p>
+    <div id="answers-log"></div>
+  </aside>
+  
+  <main>
+    <div class="container">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="front" id="card-front"></div>
+        <div class="back" id="card-back"></div>
+      </div>
+  
+      <input type="text" id="answer-input" placeholder="Введите ваш ответ...">
+      <button onclick="checkAnswer()">Проверить ответ</button>
+  
+      <div id="card-counter">Карточка 1 из 10</div>
+  
+      <div class="buttons">
+        <button class="button-name" onclick="prevCard()">⟵ Previous</button>
+        <button class="button-name" onclick="nextCard()">Next ⟶</button>
+      </div>
+    </div>
+  </main>
+  
+  <footer>
+    <p>🛠️ Сделано для AI Хакатона 2025 • Казахстан</p>
+  </footer>
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</body>
+</body>
+</html>

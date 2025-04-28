@@ -1,0 +1,300 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background: #994fed;
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    flex: 1;    
+  }
+  
+  header {
+    position: relative;
+    background-color: #8214d6;
+    color: rgb(255, 255, 255);
+    padding: 20px 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  }
+    header h1 {
+      text-align: center;
+      margin: 0;
+      font-size: 2rem;
+    }
+    
+    header p {
+        text-align: center;
+        margin: 5px 0 0;
+        font-size: 1rem;
+    }
+    .header-content {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .logo {
+      position: absolute;
+      left: 10px;
+      height: auto;
+    }
+    .menu-buttons {
+      position: absolute;
+      right: 270px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    
+    .menu-buttons button {
+      margin-left: 10px;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      border: none;
+      background: #ffffff;
+      color: #8214d6;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    
+    .menu-buttons button:hover {
+      background: #ddd;
+    }
+    
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      z-index: 999;
+    }
+    
+    #overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    #stats-panel {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100%;
+      background: #f8f8f8;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: right 0.3s ease;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    #stats-panel.open {
+      right: 0;
+    }
+    
+    #toggle-stats-btn {
+      position: absolute;
+      left: -120px;
+      top: 20px;
+      padding: 10px 20px;
+      background: #ffffff;
+      border: 2px solid #8214d6;
+      color: #8214d6;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    
+    #toggle-stats-btn:hover {
+      background: #8214d6;
+      color: white;
+    }
+    
+    #stats-panel h2 {
+      margin-top: 80px;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    
+    #stats-panel p {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    #answer-input {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 18px;
+      width: 300px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    #answers-log {
+      margin-top: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+      width: 100%;
+      font-size: 14px;
+    }
+    
+    #answers-log .correct {
+      color: green;
+      margin-bottom: 10px;
+    }
+    
+    #answers-log .incorrect {
+      color: red;
+      margin-bottom: 10px;
+    }
+    
+    #answer-input:focus {
+      outline: none;
+      border-color: #8214d6;
+    }
+    
+    .container button[onclick="checkAnswer()"] {
+      margin-top: 10px;
+      font-size: 18px;
+      padding: 10px 20px;
+      background: #ffffff;
+      border: 2px solid #8214d6;
+      color: #8214d6;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    
+    .container button[onclick="checkAnswer()"]:hover {
+      background: #8214d6;
+      color: white;
+    }    
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      text-align: center;
+    }
+    
+    .flashcard {
+      width: 500px;
+      height: 300px;
+      margin: 20px auto;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+    
+    .flashcard > div {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.7rem;
+      border: 3px solid #333;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.6s;
+    }
+    
+    .front {
+      z-index: 2;
+      user-select: none
+    }
+    
+    .back {
+      transform: rotateY(180deg);
+    }
+    
+    .flashcard.flipped .front {
+      transform: rotateY(180deg);
+    }
+    
+    .flashcard.flipped .back {
+      transform: rotateY(360deg);
+    }
+    
+    .button-name {
+      align-items: center;
+      appearance: none;
+      background-color: #fcfcfd;
+      border-radius: 6px;
+      border-width: 0;
+      box-shadow:
+        rgba(45, 35, 66, 0.2) 0 2px 4px,
+        rgba(45, 35, 66, 0.15) 0 7px 13px -3px,
+        #d6d6e7 0 -3px 0 inset;
+      box-sizing: border-box;
+      color: #36395a;
+      cursor: pointer;
+      display: inline-flex;
+      height: 60px;
+      justify-content: center;
+      line-height: 1;
+      overflow: hidden;
+      padding-left: 24px;
+      padding-right: 24px;
+      position: relative;
+      text-align: center;
+      text-decoration: none;
+      transition:
+        box-shadow 0.15s,
+        transform 0.15s;
+      user-select: none;
+      white-space: nowrap;
+      will-change: box-shadow, transform;
+      font-size: 22px;
+    }
+    
+    
+    .button-name:focus {
+      box-shadow:
+        #d6d6e7 0 0 0 1.5px inset,
+        rgba(45, 35, 66, 0.4) 0 2px 4px,
+        rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+        #d6d6e7 0 -3px 0 inset;
+    }
+    
+    .button-name:hover {
+      box-shadow:
+        rgba(45, 35, 66, 0.3) 0 4px 8px,
+        rgba(45, 35, 66, 0.2) 0 7px 13px -3px,
+        #d6d6e7 0 -3px 0 inset;
+      transform: translateY(-2px);
+    }
+    
+    .button-name:active {
+      box-shadow: #d6d6e7 0 3px 7px inset;
+      transform: translateY(2px);
+    }
+    #card-counter {
+      font-size: 1.8rem; 
+      margin-top: 20px;
+      color: #ffffff;
+    }
+    
+    
+    footer {
+      background-color: #a661ff;
+      color: #ffffff;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 0.9rem;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+    }
