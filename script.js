@@ -1,38 +1,65 @@
-const flashcards = [
-  { question: "Что означает аббревиатура CPU?", answer: "Центральный процессор (Central Processing Unit)" },
-  { question: "Что такое алгоритм?", answer: "Последовательность шагов для решения задачи или выполнения действия." },
-  { question: "Что такое двоичная система счисления?", answer: "Система счисления с основанием 2, использующая 0 и 1." },
-  { question: "Что означает HTML?", answer: "Язык разметки гипертекста (HyperText Markup Language)" },
-  { question: "Какова функция оперативной памяти (RAM)?", answer: "Временное хранение данных для быстрого доступа процессора." },
-  { question: "Что такое переменная в программировании?", answer: "Именованная область памяти для хранения значений данных." },
-  { question: "В чём разница между аппаратным и программным обеспечением?", answer: "Аппаратное — это физические компоненты, программное — это программы и операционные системы." }
-];
-
+let questions = [];
 let currentIndex = 0;
-const front = document.getElementById("card-front");
-const back = document.getElementById("card-back");
-const card = document.getElementById("flashcard");
-const cardCounter = document.getElementById("card-counter");
 
-function updateCard() {
-  front.textContent = flashcards[currentIndex].question;
-  back.textContent = flashcards[currentIndex].answer;
-  cardCounter.textContent = `Карточка ${currentIndex + 1} из ${flashcards.length}`;
-  card.classList.remove("flipped");
+async function getQuestions() {
+  const url = 'https://opentdb.com/api.php?amount=10&category=18&difficulty=medium&type=multiple&encode=url3986';
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    questions = data.results.map(q => ({
+      question: decodeURIComponent(q.question),
+      correct_answer: decodeURIComponent(q.correct_answer),
+      incorrect_answers: q.incorrect_answers.map(ans => decodeURIComponent(ans))
+    }));
+
+    showQuestion();
+
+  } catch (error) {
+    console.error('Ошибка при загрузке вопросов:', error);
+  }
 }
 
-function flipCard() {
-  card.classList.toggle("flipped");
+function showQuestion() {
+  if (questions.length === 0) return;
+
+  const questionData = questions[currentIndex];
+  
+  const cardFront = document.getElementById('card-front');
+  const cardBack = document.getElementById('card-back');
+  const cardCounter = document.getElementById('card-counter');
+
+  cardFront.textContent = questionData.question;
+  cardBack.textContent = `Correct answer: ${questionData.correct_answer}`;
+
+  cardCounter.textContent = `Карточка ${currentIndex + 1} из ${questions.length}`;
 }
 
 function nextCard() {
-  currentIndex = (currentIndex + 1) % flashcards.length;
-  updateCard();
+  if (questions.length === 0) return;
+
+  currentIndex = (currentIndex + 1) % questions.length;
+  resetCardFlip();
+  showQuestion();
 }
 
 function prevCard() {
-  currentIndex = (currentIndex - 1 + flashcards.length) % flashcards.length;
-  updateCard();
+  if (questions.length === 0) return;
+
+  currentIndex = (currentIndex - 1 + questions.length) % questions.length;
+  resetCardFlip();
+  showQuestion();
 }
 
-updateCard();
+function flipCard() {
+  const flashcard = document.getElementById('flashcard');
+  flashcard.classList.toggle('flipped');
+}
+
+function resetCardFlip() {
+  const flashcard = document.getElementById('flashcard');
+  flashcard.classList.remove('flipped');
+}
+
+getQuestions();
