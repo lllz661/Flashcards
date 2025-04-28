@@ -108,8 +108,27 @@ function checkAnswer() {
   document.getElementById('answer-input').value = '';
   updateStats();
 }
+let viewedCards = new Set();
+
+function showQuestion() {
+  if (questions.length === 0) return;
+
+  const questionData = questions[currentIndex];
+
+  const cardFront = document.getElementById('card-front');
+  const cardBack = document.getElementById('card-back');
+  const cardCounter = document.getElementById('card-counter');
+
+  cardFront.textContent = questionData.question;
+  cardBack.textContent = `Правильный ответ: ${questionData.correct_answer}`;
+  cardCounter.textContent = `Карточка ${currentIndex + 1} из ${questions.length}`;
+
+  viewedCards.add(currentIndex);
+  updateStats();
+}
+
 function updateStats() {
-  document.getElementById('total-cards').textContent = `Карточек просмотрено: ${currentIndex + 1}`;
+  document.getElementById('total-cards').textContent = `Карточек просмотрено: ${viewedCards.size}`;
   document.getElementById('correct-answers').textContent = `Правильных ответов: ${correctCount}`;
 
   const answersLogDiv = document.getElementById('answers-log');
@@ -119,8 +138,7 @@ function updateStats() {
     const p = document.createElement('p');
     if (entry.status === 'correct') {
       p.classList.add('correct');
-      p.textContent = `✅ ${entry.question}(Ответ: ${entry.correctAnswer})`;
-      answersLogDiv.appendChild(p);
+      p.textContent = `✅ ${entry.question} (Ответ: ${entry.correctAnswer})`;
     } else {
       p.classList.add('incorrect');
       p.textContent = `❌ ${entry.question} (Правильный ответ: ${entry.correctAnswer})`;
